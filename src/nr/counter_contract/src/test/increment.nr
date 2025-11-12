@@ -110,3 +110,27 @@ unconstrained fn add_multiple_incrementors_success() {
     let counter = env.view_public(Counter::at(contract_address).get_counter());
     assert(counter == 2);
 }
+
+#[test]
+unconstrained fn remove_incrementor_succeeds() {
+    let (env, contract_address, owner, user) = utils::setup_contract(false);
+
+    // Owner adds user as incrementor
+    env.call_private(owner, Counter::at(contract_address).add_incrementor(user));
+
+    // Owner removes the incrementor - should succeed without error
+    env.call_private(owner, Counter::at(contract_address).remove_incrementor(user));
+}
+
+#[test(should_fail_with = "Caller is not owner")]
+unconstrained fn remove_incrementor_fails_if_not_owner() {
+    let (env, contract_address, owner, user1) = utils::setup_contract(false);
+
+    let user2 = env.create_light_account();
+
+    // Owner adds user1 as incrementor
+    env.call_private(owner, Counter::at(contract_address).add_incrementor(user1));
+
+    // user2 (non-owner) tries to remove user1
+    env.call_private(user2, Counter::at(contract_address).remove_incrementor(user1));
+}
