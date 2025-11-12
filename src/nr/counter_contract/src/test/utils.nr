@@ -8,28 +8,28 @@ pub unconstrained fn setup_contract(
 ) -> (&mut TestEnvironment, AztecAddress, AztecAddress, AztecAddress) {
     // Setup env, generate keys
     let mut env = TestEnvironment::new();
-    let (owner, user) = if with_account_contracts {
-        let owner = env.create_contract_account();
+    let (admin, user) = if with_account_contracts {
+        let admin = env.create_contract_account();
         let user = env.create_contract_account();
-        (owner, user)
+        (admin, user)
     } else {
-        let owner = env.create_light_account();
+        let admin = env.create_light_account();
         let user = env.create_light_account();
-        (owner, user)
+        (admin, user)
     };
 
-    let contract_address = deploy_contract(&mut env, owner);
+    let contract_address = deploy_contract(&mut env, admin);
 
-    (&mut env, contract_address, owner, user)
+    (&mut env, contract_address, admin, user)
 }
 
 pub unconstrained fn deploy_contract(
     env: &mut TestEnvironment,
-    owner: AztecAddress,
+    admin: AztecAddress,
 ) -> AztecAddress {
-    let initializer_call_interface = Counter::interface().constructor(owner);
+    let initializer_call_interface = Counter::interface().constructor(admin);
     let contract_address =
-        env.deploy("Counter").with_public_initializer(owner, initializer_call_interface);
+        env.deploy("Counter").with_public_initializer(admin, initializer_call_interface);
 
     contract_address
 }

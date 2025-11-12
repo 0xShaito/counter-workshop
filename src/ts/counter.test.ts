@@ -46,7 +46,7 @@ describe("Counter Contract", () => {
   });
 
   it("e2e", async () => {
-    const owner = await counter.methods.get_owner().simulate({
+    const owner = await counter.methods.get_admin().simulate({
       from: alice,
     });
     expect(owner).toStrictEqual(alice);
