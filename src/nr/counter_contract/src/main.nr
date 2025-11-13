@@ -54,6 +54,9 @@ pub contract Counter {
             .select(IncrementorNote::properties().owner, Comparator.EQ, incrementor)
             .set_limit(1);
         let existing_notes = storage.incrementors.get_notes(options);
+        // WARNING: This check is unreliable because it depends on the admin (or admin's wallet) providing existing notes.
+        // The admin might not return a note that actually exists, so the assertion below is not accurate:
+        // it only checks if notes were provided, not whether the incrementor was actually added previously.
         assert(existing_notes.len() == 0, "Incrementor already exists");
 
         let incrementor_note = IncrementorNote { owner: incrementor };
