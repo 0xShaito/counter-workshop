@@ -15,7 +15,7 @@ pub contract Counter {
     };
 
     // import incrementor note
-    use crate::types::incrementor_note::IncrementorNote;
+    // use crate::types::incrementor_note::IncrementorNote;
 
     // @param admin The address of the admin
     // @param counter A numerical value
