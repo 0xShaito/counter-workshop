@@ -14,6 +14,7 @@
     "test:nr": "aztec test",
     "lint:prettier": "prettier '**/*.{js,ts}' --write",
     "ccc": "yarn clean && yarn compile && yarn codegen -f",
+    "deploy:counter": "tsx ./scripts/deploy.ts",
     "benchmark": "aztec-benchmark --suffix _base",
     "prepare": "husky"
   },
@@ -29,6 +30,8 @@
     "@aztec/stdlib": "3.0.0-devnet.5",
     "@aztec/test-wallet": "3.0.0-devnet.5",
     "@defi-wonderland/aztec-benchmark": "3.0.0-devnet.2",
+    "@aztec/protocol-contracts": "v3.0.0-devnet.2",
+    "commander": "14.0.1",
     "@types/node": "22.5.1"
   },
   "devDependencies": {
