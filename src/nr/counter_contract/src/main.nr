@@ -15,14 +15,14 @@ pub contract Counter {
     };
 
     // import incrementor note
-    // use crate::types::incrementor_note::IncrementorNote;
+    use crate::types::incrementor_note::IncrementorNote;
 
     // @param admin The address of the admin
     // @param counter A numerical value
     // @param incrementors A set of incrementor notes
     #[storage]
     struct Storage<Context> {
-        admin: PublicImmutable<AztecAddress, Context>,
+        owner: PublicImmutable<AztecAddress, Context>,
         counter: PublicMutable<u128, Context>,
         incrementors: PrivateSet<IncrementorNote, Context>,
     }
@@ -32,14 +32,14 @@ pub contract Counter {
     #[external("public")]
     #[initializer]
     fn constructor(admin: AztecAddress) {
-        storage.admin.initialize(admin);
+        storage.owner.initialize(admin);
     }
 
     /// @dev Retrieves the admin of the contract
     /// @return The admin of the contract
     #[external("public")]
     fn get_admin() -> AztecAddress {
-        storage.admin.read()
+        storage.owner.read()
     }
 
     /// @dev Allows the admin to add an incrementor
@@ -64,7 +64,7 @@ pub contract Counter {
     #[external("private")]
     fn remove_incrementor(incrementor: AztecAddress) {
         let sender = context.msg_sender().unwrap();
-        assert_eq(sender, storage.admin.read(), "Caller is not admin");
+        assert_eq(sender, storage.owner.read(), "Caller is not admin");
 
         let options = NoteGetterOptions::new()
             .select(IncrementorNote::properties().owner, Comparator.EQ, incrementor)

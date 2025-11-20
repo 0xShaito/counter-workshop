@@ -14,6 +14,6 @@ pub struct IncrementorNote {
 impl IncrementorNote {
     pub fn new(owner: AztecAddress) -> Self {
         let randomness = unsafe { random() };
-        AddressNote { owner, randomness }
+        IncrementorNote { owner, randomness }
     }
 }
