@@ -246,6 +246,7 @@ export async function deployToTestnet(
     const deployOptions: DeployOptions = {
       from: deployer.account.getAddress(),
       fee: sponsoredFeeOptions,
+      contractAddressSalt: Fr.random(),
       // universalDeploy: true,
     };
 
