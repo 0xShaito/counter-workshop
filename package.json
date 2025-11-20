@@ -14,7 +14,7 @@
     "test:nr": "aztec test",
     "lint:prettier": "prettier '**/*.{js,ts}' --write",
     "ccc": "yarn clean && yarn compile && yarn codegen -f",
-    "deploy:counter": "tsx ./scripts/deploy.ts",
+    "deploy:counter": "rm -rf deployer-store && tsx ./scripts/deploy.ts",
     "benchmark": "aztec-benchmark --suffix _base",
     "prepare": "husky"
   },

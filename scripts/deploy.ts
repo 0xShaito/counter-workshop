@@ -76,7 +76,7 @@ export async function setupPXE(node: AztecNode): Promise<PXE> {
       dataStoreMapSizeKb: 1e6,
     }),
   };
-  // await options.store.delete();
+  //   await options.store!.delete();
   const pxe = await createPXE(node, config, options);
   logger.info("Connected to PXE");
 
@@ -224,7 +224,6 @@ export async function deployToTestnet(
       options.nodeUrl ||
       process.env.AZTEC_NODE_URL ||
       "https://devnet.aztec-labs.com";
-
     // Get deployer secret
     const deployerSecretStr =
       options.deployerSecret || process.env.DEPLOYER_SECRET;
@@ -258,6 +257,7 @@ export async function deployToTestnet(
       deployer.account.getAddress(),
       deployOptions,
     );
+
     logger.info("Deployment completed successfully!");
     return {
       counter,
@@ -276,7 +276,7 @@ program
   .name("deploy")
   .description("Deploy Aztec Standards contracts to testnet")
   .version(packageJson.version)
-  .option("--node-url <url>", "Aztec Node URL (defaults to testnet fullnode)")
+  .option("--node-url <url>", "Aztec Node URL")
   .option(
     "--deployer-secret <secret>",
     "Deployer secret (or use DEPLOYER_SECRET env var)",
@@ -285,8 +285,11 @@ program
     try {
       console.log("options", options);
       const { counter, deployer } = await deployToTestnet(options);
-      console.error(`Counter deployed at: ${counter.address.toString()}`);
-      console.error(`Deployer account: ${deployer.toString()}`);
+      console.info(`Counter deployed at: ${counter.address.toString()}`);
+      console.info(
+        `https://devnet.aztecscan.xyz/contracts/instances/${counter.address.toString()}`,
+      );
+      console.info(`Deployer account: ${deployer.toString()}`);
       process.exit(0);
     } catch (error) {
       logger.error("Deployment failed:", error);
