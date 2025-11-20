@@ -52,6 +52,7 @@ pub contract Counter {
         assert_eq(sender, admin, "Not admin");
 
         let incrementor_note = IncrementorNote::new(incrementor);
+        // Does not check if the incrementor already exists
         let note_emission = storage.incrementors.insert(incrementor_note);
 
         note_emission.emit(incrementor, MessageDelivery.CONSTRAINED_ONCHAIN);
@@ -78,7 +79,7 @@ pub contract Counter {
         // We can access the admin because it is public immutable
         let admin = storage.owner.read();
 
-        if(admin != sender) {
+        if (admin != sender) {
             // Check if sender has an incrementor note
             let options = NoteGetterOptions::new()
                 .select(IncrementorNote::properties().owner, Comparator.EQ, sender)
