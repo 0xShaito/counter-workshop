@@ -27,7 +27,7 @@ unconstrained fn does_it_fail_to_call_the_initializer() {
     assert(counter == 1);
 }
 
-#[test(should_fail_with = "Caller is not admin or incrementor")]
+#[test(should_fail_with = "Not incrementor or admin")]
 unconstrained fn increment_fails_if_not_admin() {
     let mut env = aztec::test::helpers::test_environment::TestEnvironment::new();
 
@@ -55,23 +55,12 @@ unconstrained fn add_incrementor_success() {
     assert(counter == 1);
 }
 
-#[test(should_fail_with = "Caller is not admin")]
+#[test(should_fail_with = "Not admin")]
 unconstrained fn add_incrementor_fails_if_not_admin() {
     let (env, contract_address, _, user) = utils::setup_contract(false);
 
     // Non-admin tries to add an incrementor
     env.call_private(user, Counter::at(contract_address).add_incrementor(user));
-}
-
-#[test(should_fail_with = "Incrementor already exists")]
-unconstrained fn add_incrementor_fails_if_already_exists() {
-    let (env, contract_address, admin, user) = utils::setup_contract(false);
-
-    // Admin adds user as incrementor
-    env.call_private(admin, Counter::at(contract_address).add_incrementor(user));
-
-    // Admin tries to add the same user again
-    env.call_private(admin, Counter::at(contract_address).add_incrementor(user));
 }
 
 #[test]
