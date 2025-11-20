@@ -240,14 +240,13 @@ export async function deployToTestnet(
     const node = createAztecNodeClient(nodeUrl);
     const pxe = await setupPXE(node);
     const deployer = await createAccount(pxe, node, deployerSecret);
-    console.error(`The deployer account is ${deployer.account.getAddress()}`);
+    console.info(`The deployer account is ${deployer.account.getAddress()}`);
     const sponsoredFeeOptions = await createSponsoredFeeOptions(pxe);
 
     const deployOptions: DeployOptions = {
       from: deployer.account.getAddress(),
       fee: sponsoredFeeOptions,
       contractAddressSalt: Fr.random(),
-      // universalDeploy: true,
     };
 
     logger.info(
@@ -259,9 +258,6 @@ export async function deployToTestnet(
       deployer.account.getAddress(),
       deployOptions,
     );
-
-    logger.info(`Counter deployed at: ${counter.address.toString()}`);
-
     logger.info("Deployment completed successfully!");
     return {
       counter,
@@ -281,10 +277,6 @@ program
   .description("Deploy Aztec Standards contracts to testnet")
   .version(packageJson.version)
   .option("--node-url <url>", "Aztec Node URL (defaults to testnet fullnode)")
-  .option(
-    "--pxe-url <url>",
-    "PXE URL (optional - creates local PXE if not provided)",
-  )
   .option(
     "--deployer-secret <secret>",
     "Deployer secret (or use DEPLOYER_SECRET env var)",
