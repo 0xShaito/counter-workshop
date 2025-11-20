@@ -47,26 +47,15 @@ pub contract Counter {
     #[external("private")]
     fn add_incrementor(incrementor: AztecAddress) {
         let sender = context.msg_sender().unwrap();
-        assert_eq(sender, storage.admin.read(), "Caller is not admin");
+        let admin = storage.owner.read();
 
-        // Check if incrementor already exists
-        let options = NoteGetterOptions::new()
-            .select(IncrementorNote::properties().owner, Comparator.EQ, incrementor)
-            .set_limit(1);
-        let existing_notes = storage.incrementors.get_notes(options);
-        // WARNING: This check is unreliable because it depends on the admin (or admin's wallet) providing existing notes.
-        // The admin might not return a note that actually exists, so the assertion below is not accurate:
-        // it only checks if notes were provided, not whether the incrementor was actually added previously.
-        assert(existing_notes.len() == 0, "Incrementor already exists");
+        assert_eq(sender, admin, "Not admin");
 
-        let incrementor_note = IncrementorNote { owner: incrementor };
+        let incrementor_note = IncrementorNote::new(incrementor);
         let note_emission = storage.incrementors.insert(incrementor_note);
 
-        // Emit the note to the incrementor
         note_emission.emit(incrementor, MessageDelivery.CONSTRAINED_ONCHAIN);
-
-        // Emit the note to the admin
-        note_emission.emit(sender, MessageDelivery.CONSTRAINED_ONCHAIN);
+        note_emission.emit(admin, MessageDelivery.CONSTRAINED_ONCHAIN);
     }
 
     /// @dev Allows the admin to remove an incrementor
@@ -85,21 +74,18 @@ pub contract Counter {
     /// @dev Increments the counter
     #[external("private")]
     fn increment() {
-        let sender: _ = context.msg_sender().unwrap();
+        let sender = context.msg_sender().unwrap();
+        // We can access the admin because it is public immutable
+        let admin = storage.owner.read();
 
-        let is_admin = sender == storage.admin.read();
-
-        let mut is_incrementor = false;
-        if !is_admin {
+        if(admin != sender) {
             // Check if sender has an incrementor note
             let options = NoteGetterOptions::new()
                 .select(IncrementorNote::properties().owner, Comparator.EQ, sender)
                 .set_limit(1);
             let notes = storage.incrementors.get_notes(options);
-            is_incrementor = notes.len() > 0;
+            assert(notes.len() > 0, "Not incrementor or admin");
         }
-
-        assert(is_admin | is_incrementor, "Caller is not admin or incrementor");
 
         Counter::at(context.this_address()).increment_internal().enqueue(&mut context);
     }
