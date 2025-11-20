@@ -980,7 +980,7 @@
   resolved "https://registry.yarnpkg.com/@aztec/noir-types/-/noir-types-3.0.0-devnet.5.tgz#6a0979364c7bd829f8683d77c43b3f91bf12707e"
   integrity sha512-MRZ5bS8khyXcT6p9ptOBDIfFOl0f7RFjclthbMrJ/q0B1b2VK3bs6k3iTgbxFQz5y3Ly2+eaoCZTcCujXbl/sg==
 
-"@aztec/protocol-contracts@3.0.0-devnet.2", "@aztec/protocol-contracts@v3.0.0-devnet.2":
+"@aztec/protocol-contracts@3.0.0-devnet.2":
   version "3.0.0-devnet.2"
   resolved "https://registry.yarnpkg.com/@aztec/protocol-contracts/-/protocol-contracts-3.0.0-devnet.2.tgz#0d3a329f2c8782b05af32b1b5a9b72f0098b1dc2"
   integrity sha512-W4bcAv2c5FwxzA9JLm8aQx5J0aH7hEWGICK/lMGTr0AotuXsg3mzixg27JB2T4XHSmL7jVX589ci72FdBv4/nQ==
@@ -992,7 +992,7 @@
     lodash.omit "^4.5.0"
     tslib "^2.4.0"
 
-"@aztec/protocol-contracts@3.0.0-devnet.5":
+"@aztec/protocol-contracts@3.0.0-devnet.5", "@aztec/protocol-contracts@v3.0.0-devnet.5":
   version "3.0.0-devnet.5"
   resolved "https://registry.yarnpkg.com/@aztec/protocol-contracts/-/protocol-contracts-3.0.0-devnet.5.tgz#06c78908dfeae74fc0f58c635f653e002b2547ce"
   integrity sha512-ep292wqj81Bz5Nm6QIAYAVLcoYRev+PPB4aBSTFIDzyPBwr6zFeJNPmeUxenxivJrHeSsNmX0nivQnx8Hi8O1w==
