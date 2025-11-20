@@ -7,4 +7,4 @@ log/
 codegenCache.json
 .env
 .cursor
-pxe-test/
+pxe-*/
