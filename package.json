@@ -34,7 +34,7 @@
     "@aztec/test-wallet": "3.0.0-devnet.5",
     "@defi-wonderland/aztec-benchmark": "3.0.0-devnet.2",
     "@aztec/protocol-contracts": "v3.0.0-devnet.5",
-    "commander": "14.0.1",
+    "commander": "14.0.3",
     "@types/node": "22.5.1"
   },
   "devDependencies": {
